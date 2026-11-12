@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2457e8">
+<title>DONE — Οργάνωσε τη μέρα σου</title>
+<style>
+:root{--blue:#2457e8;--ink:#17213b;--muted:#71809c;--bg:#f4f7ff;--line:#e5eaf5;--white:#fff;--green:#159b72}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(125deg,#1745c7,#4779ff);color:#fff;padding:26px 18px 34px;border-radius:0 0 28px 28px}
+.wrap{max-width:900px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center}.logo{font-size:25px;font-weight:850;letter-spacing:1px}.tag{font-size:12px;opacity:.85}
+h1{font-size:27px;margin:24px 0 5px}header p{margin:0;opacity:.88}
+main{max-width:900px;margin:-17px auto 40px;padding:0 14px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat,.panel{background:var(--white);border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:0 5px 18px #233d7710}
+.stat strong{display:block;font-size:24px}.stat span{font-size:12px;color:var(--muted)}
+.panel{margin-top:14px}.panel h2{font-size:17px;margin:0 0 13px}
+.add{display:grid;grid-template-columns:1fr auto;gap:8px}input,select{font:inherit;border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff;color:var(--ink);min-width:0}
+button{font:inherit;border:0;border-radius:11px;padding:11px 15px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}
+button.secondary{background:#edf2ff;color:var(--blue)}button.danger{background:#fff0f0;color:#c33}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.filters button{padding:8px 12px;font-size:13px}
+.filters button.active{background:var(--ink)}
+.task{display:flex;gap:11px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}
+.task:last-child{border:0}.task input{margin-top:4px;accent-color:var(--blue);width:18px;height:18px}
+.taskbody{flex:1;min-width:0}.taskname{font-weight:650;overflow-wrap:anywhere}.done .taskname{text-decoration:line-through;color:#98a2b5}
+.meta{font-size:12px;color:var(--muted);margin-top:4px}.pill{display:inline-block;background:#eef3ff;color:#355bc0;padding:3px 7px;border-radius:20px;margin-right:5px}
+.task .delete{padding:6px 9px;font-size:12px}.empty{color:var(--muted);text-align:center;padding:20px 5px}
+.focusbox{text-align:center}.timer{font-size:42px;font-weight:800;letter-spacing:1px;margin:6px}.focusbox p{color:var(--muted);font-size:13px}
+.progress{height:9px;background:#edf1f8;border-radius:20px;overflow:hidden;margin-top:10px}.progress div{height:100%;background:var(--green);width:0;transition:width .2s}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(min-width:700px){.lower{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}.lower .panel{margin-top:14px}}
+@media(max-width:420px){.summary{gap:7px}.stat{padding:11px}.stat strong{font-size:21px}.add{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="top"><div class="logo">DONE<span style="color:#bcd0ff">.</span></div><div class="tag">ΚΑΝΕ ΤΟ ΕΠΟΜΕΝΟ ΒΗΜΑ</div></div>
+ <h1>Καλησπέρα! 👋</h1><p>Μικρά βήματα. Μεγάλη πρόοδος.</p>
+</div></header>
+<main>
+ <section class="summary">
+  <div class="stat"><strong id="total">0</strong><span>Σύνολο εργασιών</span></div>
+  <div class="stat"><strong id="completed">0</strong><span>Ολοκληρωμένες</span></div>
+  <div class="stat"><strong id="percent">0%</strong><span>Πρόοδος ημέρας</span></div>
+ </section>
+ <section class="panel">
+  <h2>＋ Πρόσθεσε εργασία</h2>
+  <form id="taskForm">
+   <div class="add"><input id="taskInput" maxlength="100" placeholder="Τι θέλεις να ολοκληρώσεις;" required><button>Προσθήκη</button></div>
+   <div class="options">
+    <select id="category"><option>Προσωπικά</option><option>Σπουδές</option><option>Εργασία</option><option>Υγεία</option><option>Άλλο</option></select>
+    <input id="due" type="date" aria-label="Ημερομηνία προθεσμίας">
+   </div>
+  </form>
+ </section>
+ <div class="lower">
+  <section class="panel">
+   <h2>Οι εργασίες μου</h2>
+   <div class="filters">
+    <button class="secondary active" data-filter="all">Όλες</button>
+    <button class="secondary" data-filter="open">Εκκρεμείς</button>
+    <button class="secondary" data-filter="done">Ολοκληρωμένες</button>
+   </div>
+   <div id="tasks"><div class="empty">Δεν έχεις προσθέσει ακόμη εργασία. Ξεκίνα με ένα μικρό βήμα!</div></div>
+  </section>
+  <section class="panel">
+   <h2>⚡ Focus Mode</h2>
+   <div class="focusbox">
+    <p>25 λεπτά συγκέντρωσης</p><div class="timer" id="timer">25:00</div>
+    <button id="start">Έναρξη</button> <button class="secondary" id="reset">Επαναφορά</button>
+    <p id="focusMessage">Διάλεξε μία εργασία και αφοσιώσου σε αυτή.</p>
+   </div>
+   <div style="margin-top:22px"><h2>Η πρόοδός σου</h2><div class="progress"><div id="bar"></div></div><p class="meta" id="progressText">0 από 0 εργασίες ολοκληρώθηκαν</p></div>
+  </section>
+ </div>
+ <footer>DONE 2.0 · Οι εργασίες σου αποθηκεύονται σε αυτή τη συσκευή και σε αυτόν τον browser.</footer>
+</main>
+<script>
+const KEY='done-v2-tasks';
+let tasks=[];try{tasks=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(tasks))tasks=[]}catch(e){tasks=[]}
+let filter='all',seconds=1500,interval=null;
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(tasks))}catch(e){}}
+function render(){
+ const total=tasks.length,completed=tasks.filter(t=>t.done).length,pct=total?Math.round(completed/total*100):0;
+ $('total').textContent=total;$('completed').textContent=completed;$('percent').textContent=pct+'%';
+ $('bar').style.width=pct+'%';$('progressText').textContent=`${completed} από ${total} εργασίες ολοκληρώθηκαν`;
+ const shown=tasks.filter(t=>filter==='all'||(filter==='done'?t.done:!t.done));
+ $('tasks').innerHTML='';
+ if(!shown.length){$('tasks').innerHTML='<div class="empty">Δεν υπάρχουν εργασίες εδώ ακόμη.</div>';return}
+ shown.sort((a,b)=>(a.done-b.done)||(String(a.due||'9999').localeCompare(String(b.due||'9999'))));
+ shown.forEach(t=>{
+  const row=document.createElement('div');row.className='task'+(t.done?' done':'');
+  const check=document.createElement('input');check.type='checkbox';check.checked=t.done;check.setAttribute('aria-label','Ολοκλήρωση εργασίας');
+  check.addEventListener('change',()=>{t.done=check.checked;save();render()});
+  const body=document.createElement('div');body.className='taskbody';
+  const name=document.createElement('div');name.className='taskname';name.textContent=t.name;
+  const meta=document.createElement('div');meta.className='meta';
+  const cat=document.createElement('span');cat.className='pill';cat.textContent=t.category;
+  meta.append(cat);if(t.due){const d=document.createElement('span');d.textContent='Προθεσμία: '+new Date(t.due+'T00:00:00').toLocaleDateString('el-GR');meta.append(d)}
+  body.append(name,meta);
+  const del=document.createElement('button');del.className='delete danger';del.textContent='Διαγραφή';del.addEventListener('click',()=>{tasks=tasks.filter(x=>x.id!==t.id);save();render()});
+  row.append(check,body,del);$('tasks').append(row);
+ });
+}
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();const name=$('taskInput').value.trim();if(!name)return;
+ tasks.push({id:Date.now()+Math.random(),name,category:$('category').value,due:$('due').value,done:false});
+ save();$('taskInput').value='';$('due').value='';filter='all';document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));render();
+});
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()}));
+function showTimer(){const m=Math.floor(seconds/60),s=seconds%60;$('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+$('start').addEventListener('click',()=>{if(interval){clearInterval(interval);interval=null;$('start').textContent='Συνέχεια';return}
+ $('start').textContent='Παύση';$('focusMessage').textContent='Μείνε συγκεντρωμένος/η. Τα καταφέρνεις!';
+ interval=setInterval(()=>{seconds--;showTimer();if(seconds<=0){clearInterval(interval);interval=null;$('start').textContent='Έναρξη';$('focusMessage').textContent='Μπράβο! Ολοκλήρωσες έναν κύκλο συγκέντρωσης 🎉';seconds=1500;showTimer()}},1000);
+});
+$('reset').addEventListener('click',()=>{if(interval)clearInterval(interval);interval=null;seconds=1500;showTimer();$('start').textContent='Έναρξη';$('focusMessage').textContent='Διάλεξε μία εργασία και αφοσιώσου σε αυτή.'});
+render();showTimer();
+</script>
+</body></html>
