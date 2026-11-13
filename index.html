@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17263f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DONE">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>DONE — Κάνε χώρο για όσα μετράνε</title>
+<style>
+:root{
+ --navy:#14233d;--navy2:#1d3559;--blue:#4268ee;--blue2:#eaf0ff;
+ --ink:#17243a;--muted:#75839a;--bg:#f3f6fb;--card:#fff;--line:#e7ecf4;
+ --green:#169b78;--orange:#d88a35;--red:#d85d6c;
+ --shadow:0 12px 34px rgba(20,35,61,.07);--shadow2:0 5px 16px rgba(20,35,61,.06)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;padding:0 0 calc(92px + env(safe-area-inset-bottom));background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;letter-spacing:-.012em}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;transition:transform .16s ease,background .16s ease,box-shadow .16s ease}
+button:active{transform:scale(.975)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #4268ee35;outline-offset:2px}
+header{position:relative;overflow:hidden;color:#fff;padding:22px 18px 44px;border-radius:0 0 30px 30px;background:linear-gradient(128deg,#14233d 0%,#1c355b 62%,#2d4b79 100%)}
+header:before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid #ffffff20;right:-105px;top:-160px;box-shadow:0 0 0 28px #ffffff08,0 0 0 62px #ffffff05}
+header:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;background:#8ea9ff18;right:23%;bottom:-72px;filter:blur(2px)}
+.wrap,.main-wrap{max-width:1040px;margin:auto;position:relative}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:25px;font-weight:950;letter-spacing:1.6px;color:#fff}
+.brand i{font-style:normal;color:#a9bdff}
+.date{font-size:12px;color:#c6d3e8;font-weight:600}
+.greeting{margin-top:29px;max-width:610px}
+.greeting small{color:#b8caff;font-size:10px;font-weight:850;letter-spacing:2px}
+.greeting h1{font-size:clamp(27px,5vw,38px);line-height:1.12;letter-spacing:-1.2px;margin:8px 0;color:#fff;font-weight:850}
+.greeting p{margin:8px 0 0;color:#d0d9e8;font-size:13px}
+main{max-width:1040px;margin:-23px auto 24px;padding:0 15px;position:relative}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{position:relative;overflow:hidden;background:var(--card);border:1px solid #e8edf5;border-radius:18px;padding:15px;box-shadow:var(--shadow2)}
+.stat:after{content:"";position:absolute;width:52px;height:52px;right:-18px;top:-19px;border-radius:50%;background:var(--blue2)}
+.stat strong{display:block;font-size:26px;line-height:1.15;letter-spacing:-.8px;color:var(--navy);position:relative;z-index:1}
+.stat span{display:block;font-size:10px;color:var(--muted);font-weight:650;margin-top:5px;position:relative;z-index:1}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;margin-top:14px;box-shadow:var(--shadow2)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:13px}
+.panel h2{font-size:15px;letter-spacing:-.3px;margin:0;font-weight:800;color:var(--navy)}
+.sub{font-size:11px;color:var(--muted)}
+.btn{background:linear-gradient(135deg,#5277f4,#3e61df);color:white;border-radius:12px;padding:10px 14px;font-size:12px;font-weight:800;box-shadow:0 6px 15px #4268ee2b}
+.btn:hover{box-shadow:0 9px 20px #4268ee40;filter:brightness(1.03)}
+.btn.light{background:#edf1ff;color:#3558d7;box-shadow:none}
+.btn.ghost{background:#f1f4f9;color:#596a83;box-shadow:none}
+.btn.small{padding:8px 10px;font-size:11px}
+input,select,textarea{border:1px solid #e2e8f1;border-radius:12px;padding:11px 12px;background:#fbfcfe;color:var(--ink);min-width:0;width:100%;transition:border .16s,box-shadow .16s}
+input:focus,select:focus,textarea:focus{border-color:#9eb2ff;box-shadow:0 0 0 3px #4268ee12}
+input::placeholder,textarea::placeholder{color:#a0aabd}
+textarea{resize:vertical;min-height:90px}
+.quick{display:grid;grid-template-columns:1fr auto;gap:8px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.smart{position:relative;overflow:hidden;background:linear-gradient(125deg,#eef2ff 0%,#f7f9ff 68%,#e9efff 100%);border:1px solid #e0e8ff;border-radius:16px;padding:16px}
+.smart:after{content:"✦";position:absolute;right:17px;top:10px;color:#a9bbff;font-size:33px;opacity:.65}
+.smart-label{font-size:9px;font-weight:900;letter-spacing:1.6px;color:#4968d7}
+.smart-title{font-size:18px;font-weight:850;letter-spacing:-.5px;margin:5px 0;color:#1b2c4a}
+.smart p{font-size:11px;color:#6f7d96;margin:0 0 11px}
+.progress{height:7px;background:#edf0f6;border-radius:20px;overflow:hidden}
+.progress>div{height:100%;background:linear-gradient(90deg,#35b58e,#68cfad);border-radius:20px;transition:width .35s}
+.dashboard-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:0 14px}
+.dashboard-grid .panel{min-width:0}
+.task{display:flex;gap:10px;align-items:flex-start;padding:13px 0;border-bottom:1px solid #edf0f5}
+.task:last-child{border:0;padding-bottom:0}
+.check{width:19px;height:19px;accent-color:var(--blue);margin-top:2px;flex:none}
+.taskmain{flex:1;min-width:0}
+.tasktitle{font-weight:750;font-size:13px;overflow-wrap:anywhere;color:#263650}
+.task.done .tasktitle{text-decoration:line-through;color:#a0a9b8}
+.taskmeta{font-size:10px;color:#8995a8;margin-top:5px;line-height:1.5}
+.tag{display:inline-block;background:#f0f3f8;color:#65748b;padding:3px 7px;border-radius:20px;margin-right:4px;font-size:9px;font-weight:700}
+.priority-high{color:var(--red);font-weight:800}.priority-medium{color:var(--orange);font-weight:800}
+.task-actions{display:flex;gap:4px}
+.iconbtn{background:#f1f4f8;color:#64748b;border-radius:9px;padding:7px 9px;font-size:12px}
+.iconbtn:hover{background:#e8edfa;color:#3658d6}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
+.filters button{border-radius:30px;padding:7px 11px;background:#f1f4f8;color:#68788f;font-size:10px;font-weight:700}
+.filters button.active{background:var(--navy);color:#fff}
+.empty{text-align:center;color:#8d99ab;padding:23px 6px;font-size:12px}
+.view{display:none;animation:fadeUp .22s ease}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.focus{text-align:center;background:linear-gradient(145deg,#f5f7ff,#eef2fc);border:1px solid #e8edfa;border-radius:16px;padding:17px}
+.clock{font-size:clamp(43px,10vw,58px);font-weight:900;letter-spacing:1px;margin:5px;color:#1b3156;font-variant-numeric:tabular-nums}
+.focus-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.focus p{font-size:11px;color:#7d8aa0;margin:4px 0 12px}
+.minutes{display:flex;justify-content:center;align-items:center;gap:7px;margin:10px auto;max-width:250px}
+.minutes input{width:74px;text-align:center;font-weight:800}
+.habit{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #edf0f5}
+.habit:last-child{border:0}
+.habit-icon{width:40px;height:40px;border-radius:13px;background:#eef2ff;display:grid;place-items:center;font-size:18px}
+.habit-info{flex:1;min-width:0}.habit-info b{display:block;font-size:13px;color:#263650}.habit-info small{color:#8a96a9;font-size:10px}
+.habit-done{background:#e8f7f1;color:#16866b;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:800}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{background:#f4f6fa;border:1px solid #edf0f5;border-radius:11px;text-align:center;padding:8px 2px;font-size:10px;color:#8b97a9}
+.day b{display:block;color:#34445e;font-size:13px;margin-top:3px}.day.today{background:#edf1ff;color:#4268ee;border-color:#dce5ff}.day.today b{color:#3558d7}
+.note{background:#fffaf0;border:1px solid #f2ead7;border-radius:13px;padding:12px;margin-top:8px;color:#4c4a43;font-size:12px}
+.note small{color:#9b927e;font-size:10px}
+.bottomnav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(18px);border-top:1px solid #e8edf4;display:flex;justify-content:center;z-index:10;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));box-shadow:0 -7px 24px #14233d0a}
+.navinner{width:min(940px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.navbtn{background:transparent;color:#929daf;border-radius:13px;padding:6px 2px;font-size:9px;font-weight:750}
+.navbtn .ico{font-size:19px;display:block;margin-bottom:2px}
+.navbtn.active{background:#edf1ff;color:#3d60df}
+.toast{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:#172b4a;color:#fff;padding:11px 16px;border-radius:12px;font-size:11px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;white-space:nowrap;box-shadow:0 9px 25px #14233d30}
+.toast.show{opacity:1}
+.modalback{position:fixed;inset:0;background:#10182877;display:none;align-items:center;justify-content:center;padding:18px;z-index:30;backdrop-filter:blur(5px)}
+.modalback.open{display:flex}
+.modal{background:#fff;border:1px solid #e8edf4;border-radius:22px;padding:19px;width:min(440px,100%);max-height:90vh;overflow:auto;box-shadow:0 24px 70px #0b173333}
+.modal h2{margin:0 0 14px;font-size:18px;color:var(--navy)}
+.modal .formgrid{margin:8px 0}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+footer{max-width:940px;margin:25px auto 12px;padding:0 16px;color:#9aa5b5;font-size:10px;text-align:center;line-height:1.7}
+.vip-card{background:linear-gradient(130deg,#14233d,#284878);color:#fff;border:0;position:relative;overflow:hidden}
+.vip-card:after{content:"✦";position:absolute;right:16px;top:3px;font-size:70px;color:#ffffff12}
+.vip-card h2{color:#fff}.vip-card .sub{color:#c4d3eb}.vip-card p{color:#d2dcef}
+@media(min-width:700px){header{padding:28px 22px 50px}.greeting h1{font-size:39px}main{padding:0 20px}.stats{gap:13px}.stat{padding:18px}.panel{padding:20px}.dashboard-grid{grid-template-columns:1.08fr .92fr}}
+@media(max-width:600px){.dashboard-grid{display:block}.dashboard-grid .panel{margin-top:13px}}
+@media(max-width:390px){.stat{padding:12px 9px}.stat strong{font-size:22px}.stat span{font-size:9px}.panel{padding:14px}.greeting h1{font-size:27px}.quick{grid-template-columns:1fr auto;gap:6px}.quick .btn{padding:9px 10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="top"><div class="brand">DONE<i>.</i></div><div class="date" id="todayLabel"></div></div>
+ <div class="greeting"><small>ΚΑΛΩΣ ΗΡΘΕΣ ΠΙΣΩ</small><h1>Κάνε χώρο για όσα μετράνε.</h1><p>Οργάνωσε τη μέρα σου, ένα βήμα τη φορά.</p></div>
+</div></header>
+<main>
+<section class="stats">
+ <div class="stat"><strong id="statTasks">0</strong><span>Εκκρεμείς εργασίες</span></div>
+ <div class="stat"><strong id="statDone">0</strong><span>Ολοκληρωμένες</span></div>
+ <div class="stat"><strong id="statRate">0%</strong><span>Πρόοδος συνολικά</span></div>
+</section>
+
+<section class="view active" id="view-home">
+ <div class="panel">
+  <div class="panel-head"><h2>✦ Η πρότασή μου για σήμερα</h2><span class="sub">SMART PICK</span></div>
+  <div class="smart" id="smartPick"><div class="smart-label">ΕΠΟΜΕΝΟ ΒΗΜΑ</div><div class="smart-title">Πρόσθεσε την πρώτη σου εργασία</div><p>Θα εμφανιστεί εδώ μια εκκρεμότητα που αξίζει να ξεκινήσεις.</p></div>
+ </div>
+ <div class="dashboard-grid">
+  <div class="panel">
+   <div class="panel-head"><h2>Γρήγορη προσθήκη</h2><button class="btn light small" id="openFullAdd">Περισσότερα +</button></div>
+   <form id="quickForm"><div class="quick"><input id="quickTitle" maxlength="100" placeholder="Π.χ. Να τελειώσω την παρουσίαση" required><button class="btn">Προσθήκη</button></div></form>
+  </div>
+  <div class="panel">
+   <div class="panel-head"><h2>Η εβδομάδα σου</h2><span class="sub">ΣΥΝΕΠΕΙΑ</span></div>
+   <div class="week" id="weekStrip"></div>
+  </div>
+  <div class="panel">
+   <div class="panel-head"><h2>Σημερινές προτεραιότητες</h2><button class="btn ghost small" data-go="tasks">Όλες</button></div>
+    <div class="sub" id="todayProgress" style="margin:-3px 0 8px">Η πρόοδός σου σήμερα</div>
+   <div id="homeTasks" class="sub">Δεν έχεις ακόμη εργασίες.</div>
+  </div>
+  <div class="panel">
+   <div class="panel-head"><h2>Μικρή υπενθύμιση</h2><span>☀️</span></div>
+   <div style="font-weight:750;font-size:17px">Δεν χρειάζεται να τα κάνεις όλα σήμερα.</div><div class="sub" style="margin-top:5px">Χρειάζεται μόνο να ξεκινήσεις από κάπου.</div>
+  </div>
+ </div>
+</section>
+
+<section class="view" id="view-tasks">
+ <div class="panel">
+  <div class="panel-head"><h2>Οι εργασίες μου</h2><button class="btn small" id="openAdd">+ Νέα εργασία</button></div>
+  <input id="searchTasks" placeholder="⌕  Αναζήτηση εργασιών..." style="margin-bottom:10px">
+  <div class="filters"><button class="active" data-filter="all">Όλες</button><button data-filter="open">Εκκρεμείς</button><button data-filter="done">Ολοκληρωμένες</button><button data-filter="high">Υψηλή προτεραιότητα</button></div>
+  <div id="taskList"></div>
+ </div>
+</section>
+
+<section class="view" id="view-focus">
+ <div class="panel">
+  <div class="panel-head"><h2>Focus Studio</h2><span class="sub">Ο ΧΡΟΝΟΣ ΣΟΥ</span></div>
+  <div class="focus">
+   <p>Ρύθμισε τη διάρκεια που σε βοηθά να συγκεντρωθείς.</p>
+   <div class="minutes"><input id="focusMinutes" type="number" min="1" max="240" value="25"><span class="sub">λεπτά</span><button class="btn light small" id="applyMinutes">Ορισμός</button></div>
+   <div class="clock" id="clock">25:00</div>
+   <div class="focus-controls"><button class="btn" id="focusStart">Έναρξη</button><button class="btn light" id="focusReset">Επαναφορά</button></div>
+   <p id="focusStatus" style="margin-top:12px">Μία δουλειά τη φορά. Άφησε τα υπόλοιπα για μετά.</p>
+  </div>
+  <div class="panel-head" style="margin-top:18px"><h2>Τι θα δουλέψεις;</h2></div>
+  <select id="focusTask"><option value="">Επίλεξε εργασία (προαιρετικά)</option></select>
+  <p class="sub">Όταν τελειώσει ο χρόνος, θα εμφανιστεί ειδοποίηση μέσα στην εφαρμογή.</p>
+ </div>
+</section>
+
+<section class="view" id="view-habits">
+ <div class="panel">
+  <div class="panel-head"><h2>Συνήθειες που σε χτίζουν</h2><button class="btn small" id="addHabit">+ Συνήθεια</button></div>
+  <p class="sub">Μικρές επαναλήψεις, μεγάλη αλλαγή. Πάτησε «Έγινε» όταν ολοκληρώσεις κάτι σήμερα.</p>
+  <div id="habitList"></div>
+ </div>
+ <div class="panel"><h2>Η μικρή σου πρόκληση</h2><div class="smart" style="margin-top:12px"><div class="smart-label">7 ΗΜΕΡΕΣ ΣΥΝΕΠΕΙΑΣ</div><div class="smart-title">Κράτα μία μικρή υπόσχεση στον εαυτό σου.</div><p>Διάλεξε μία συνήθεια και προσπάθησε να την επαναλάβεις κάθε μέρα αυτή την εβδομάδα.</p></div></div>
+</section>
+
+<section class="view" id="view-notes">
+ <div class="panel">
+  <div class="panel-head"><h2>Ιδέες & σημειώσεις</h2><span class="sub">Ο ΧΩΡΟΣ ΣΟΥ</span></div>
+  <textarea id="noteInput" placeholder="Γράψε εδώ μια ιδέα, μια σκέψη ή κάτι που δεν θέλεις να ξεχάσεις..."></textarea>
+  <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="saveNote">Αποθήκευση σημείωσης</button></div>
+  <div id="notesList" style="margin-top:10px"></div>
+ </div>
+ 
+  <div class="panel" style="background:linear-gradient(135deg,#17263f,#29436d);color:#fff;border:0">
+   <div class="panel-head"><h2 style="color:#fff">✦ DONE VIP</h2><span class="sub" style="color:#c7d4ec">2€ / μήνα</span></div>
+   <div style="font-size:20px;font-weight:850;letter-spacing:-.4px">Περισσότερος χώρος για όσα μετράνε.</div>
+   <p style="font-size:12px;color:#c7d4ec;line-height:1.6">Προχωρημένα στατιστικά, επιπλέον θέματα εμφάνισης και εργαλεία οργάνωσης. Η συνδρομή δεν είναι ακόμη ενεργή — θα συνδεθεί με ασφαλείς πληρωμές πριν από τη διάθεση.</p>
+   <div style="display:flex;gap:7px;flex-wrap:wrap"><span class="tag" style="background:#ffffff18;color:#fff">Προχωρημένα στατιστικά</span><span class="tag" style="background:#ffffff18;color:#fff">Premium themes</span><span class="tag" style="background:#ffffff18;color:#fff">Περισσότερη οργάνωση</span></div>
+  </div>
+
+  
+  <div class="panel">
+   <div class="panel-head"><h2>🔔 Υπενθυμίσεις</h2><span class="sub">DONE ALERTS</span></div>
+   <p class="sub">Επίτρεψε τις ειδοποιήσεις για να λαμβάνεις υπενθυμίσεις όταν το DONE είναι ανοιχτό. Σε iPhone, πρόσθεσε πρώτα το DONE στην οθόνη Αφετηρίας και άνοιξέ το από εκεί.</p>
+   <button class="btn light" id="enableNotifications" aria-label="Ενεργοποίηση ειδοποιήσεων">Ενεργοποίηση ειδοποιήσεων</button>
+   <div class="sub" id="notificationStatus" style="margin-top:9px">Οι ειδοποιήσεις δεν έχουν ρυθμιστεί.</div>
+  </div>
+
+  <div class="panel"><h2>Το προσωπικό σου ταμπλό</h2><p class="sub">Οι εργασίες, οι συνήθειες και οι σημειώσεις σου αποθηκεύονται τοπικά σε αυτή τη συσκευή.</p><button class="btn ghost small" id="exportData">Εξαγωγή αντιγράφου δεδομένων</button></div>
+</section>
+</main>
+
+<nav class="bottomnav" aria-label="Κύρια πλοήγηση"><div class="navinner">
+ <button class="navbtn active" data-view="home"><span class="ico">⌂</span>Αρχική</button>
+ <button class="navbtn" data-view="tasks"><span class="ico">☷</span>Εργασίες</button>
+ <button class="navbtn" data-view="focus"><span class="ico">◷</span>Focus</button>
+ <button class="navbtn" data-view="habits"><span class="ico">✦</span>Συνήθειες</button>
+ <button class="navbtn" data-view="notes"><span class="ico">▤</span>Σημειώσεις</button>
+</div></nav>
+<div class="toast" id="toast"></div>
+
+<div class="modalback" id="taskModal"><div class="modal">
+ <h2 id="modalTitle">Νέα εργασία</h2>
+ <form id="taskForm">
+  <input id="taskName" maxlength="100" placeholder="Τι θέλεις να κάνεις;" required>
+  <div class="formgrid"><select id="taskCategory"><option>Προσωπικά</option><option>Σπουδές</option><option>Εργασία</option><option>Υγεία</option><option>Σπίτι</option><option>Άλλο</option></select><select id="taskPriority"><option value="medium">Μεσαία προτεραιότητα</option><option value="high">Υψηλή προτεραιότητα</option><option value="low">Χαμηλή προτεραιότητα</option></select></div>
+  <div class="formgrid"><input id="taskDue" type="date" aria-label="Προθεσμία"><input id="taskDueTime" type="time" aria-label="Ώρα προθεσμίας"></div><div class="formgrid"><select id="taskReminder"><option value="0">Χωρίς υπενθύμιση</option><option value="5">Υπενθύμιση 5 λεπτά πριν</option><option value="15" selected>Υπενθύμιση 15 λεπτά πριν</option><option value="30">Υπενθύμιση 30 λεπτά πριν</option><option value="60">Υπενθύμιση 1 ώρα πριν</option></select><select id="taskRepeat"><option value="none">Χωρίς επανάληψη</option><option value="daily">Κάθε μέρα</option><option value="weekly">Κάθε εβδομάδα</option></select></div>
+  <div class="modal-actions"><button type="button" class="btn ghost" id="cancelModal">Άκυρο</button><button class="btn">Αποθήκευση</button></div>
+ </form>
+</div></div>
+
+<footer>DONE · Ένας πιο ήρεμος τρόπος να οργανώνεις όσα έχουν σημασία.<br>Τα δεδομένα σου αποθηκεύονται σε αυτή τη συσκευή. Δεν υπάρχει ακόμη online συγχρονισμός ή κοινή χρήση με άλλους.</footer>
+
+<script>
+const $=id=>document.getElementById(id), DB='done_3_local_v1';
+let state={tasks:[],habits:[{id:'h1',name:'Πιες ένα ποτήρι νερό',icon:'💧',days:[]},{id:'h2',name:'Διάβασε για 10 λεπτά',icon:'📖',days:[]},{id:'h3',name:'Κάνε λίγη κίνηση',icon:'🚶',days:[] }],notes:[]};
+try{const saved=JSON.parse(localStorage.getItem(DB)||'null');if(saved&&typeof saved==='object')state={...state,...saved}}catch(e){}
+let filter='all',editingId=null,seconds=1500,baseMinutes=25,timer=null;
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){try{localStorage.setItem(DB,JSON.stringify(state))}catch(e){toast('Δεν ήταν δυνατή η αποθήκευση.')}} 
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function go(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+view));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===view));window.scrollTo({top:0,behavior:'smooth'});if(view==='tasks')renderTasks()}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('todayLabel').textContent=new Date().toLocaleDateString('el-GR',{weekday:'long',day:'numeric',month:'long'});
+function dueText(d){if(!d)return 'Χωρίς προθεσμία';const dt=new Date(d+'T00:00:00');return 'Έως '+dt.toLocaleDateString('el-GR',{day:'numeric',month:'short'})}
+function sortedOpen(){return state.tasks.filter(t=>!t.done).sort((a,b)=>{const p={high:0,medium:1,low:2};if(a.due&&b.due&&a.due!==b.due)return a.due.localeCompare(b.due);if(a.due&&!b.due)return -1;if(!a.due&&b.due)return 1;return p[a.priority]-p[b.priority]})}
+function render(){
+ const done=state.tasks.filter(t=>t.done).length,open=state.tasks.length-done,rate=state.tasks.length?Math.round(done/state.tasks.length*100):0;
+ $('statTasks').textContent=open;$('statDone').textContent=done;$('statRate').textContent=rate+'%';
+  if($('todayProgress'))$('todayProgress').textContent=done+' από '+state.tasks.length+' εργασίες ολοκληρώθηκαν συνολικά · '+rate+'% πρόοδος';
+ const next=sortedOpen()[0];
+ $('smartPick').innerHTML=next?`<div class="smart-label">ΠΡΟΤΕΙΝΟΜΕΝΗ ΕΡΓΑΣΙΑ</div><div class="smart-title">${esc(next.name)}</div><p>${esc(dueText(next.due))} · ${next.priority==='high'?'Υψηλή':next.priority==='low'?'Χαμηλή':'Μεσαία'} προτεραιότητα · ${esc(next.category)}</p><button class="btn small" id="smartStart">Ξεκίνα από εδώ →</button>`:`<div class="smart-label">ΕΠΟΜΕΝΟ ΒΗΜΑ</div><div class="smart-title">${state.tasks.length?'Όλα τα έχεις υπό έλεγχο!':'Πρόσθεσε την πρώτη σου εργασία'}</div><p>${state.tasks.length?'Πάρε μια ανάσα ή βάλε έναν νέο στόχο.':'Το DONE θα σε βοηθήσει να οργανώσεις τις προτεραιότητές σου.'}</p>`;
+ if(next)$('smartStart').addEventListener('click',()=>{go('focus');$('focusTask').value=String(next.id)});
+ const home=state.tasks.filter(t=>!t.done).slice(0,3);
+ $('homeTasks').innerHTML=home.length?home.map(t=>`<div class="task"><input class="check" type="checkbox" data-check="${t.id}" aria-label="Ολοκλήρωση"><div class="taskmain"><div class="tasktitle">${esc(t.name)}</div><div class="taskmeta">${esc(t.category)} · ${esc(dueText(t.due))}</div></div></div>`).join(''):'<div class="empty">Δεν έχεις εκκρεμότητες. Απόλαυσε τον χώρο σου!</div>';
+ $('homeTasks').querySelectorAll('[data-check]').forEach(c=>c.addEventListener('change',()=>complete(c.dataset.check)));
+ renderTasks();renderHabits();renderNotes();renderWeek();renderFocusOptions();
+}
+function taskMarkup(t){const pri=t.priority==='high'?'Υψηλή':t.priority==='low'?'Χαμηλή':'Μεσαία';return `<div class="task ${t.done?'done':''}"><input class="check" type="checkbox" data-check="${t.id}" ${t.done?'checked':''} aria-label="Ολοκλήρωση"><div class="taskmain"><div class="tasktitle">${esc(t.name)}</div><div class="taskmeta"><span class="tag">${esc(t.category)}</span><span class="${t.priority==='high'?'priority-high':t.priority==='medium'?'priority-medium':''}">${pri}</span> · ${esc(dueText(t.due))}${t.dueTime?' · '+esc(t.dueTime):''}${t.repeat!=='none'?' · ↻ Επανάληψη':''}</div></div><div class="task-actions"><button class="iconbtn" data-edit="${t.id}" aria-label="Επεξεργασία">✎</button><button class="iconbtn" data-del="${t.id}" aria-label="Διαγραφή">×</button></div></div>`}
+function renderTasks(){
+ const q=($('searchTasks').value||'').toLowerCase();
+ const arr=state.tasks.filter(t=>(!q||(t.name+' '+t.category).toLowerCase().includes(q))&&(filter==='all'||(filter==='open'&&!t.done)||(filter==='done'&&t.done)||(filter==='high'&&t.priority==='high')));
+ $('taskList').innerHTML=arr.length?arr.map(taskMarkup).join(''):'<div class="empty">Δεν βρέθηκαν εργασίες. Πρόσθεσε μία και ξεκίνα!</div>';
+ $('taskList').querySelectorAll('[data-check]').forEach(c=>c.addEventListener('change',()=>complete(c.dataset.check)));
+ $('taskList').querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.edit)));
+ $('taskList').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{if(confirm('Να διαγραφεί αυτή η εργασία;')){state.tasks=state.tasks.filter(t=>String(t.id)!==b.dataset.del);save();render();toast('Η εργασία διαγράφηκε')}}));
+}
+function complete(id){const t=state.tasks.find(x=>String(x.id)===String(id));if(!t)return;t.done=!t.done;t.completedDate=t.done?today():'';save();render();toast(t.done?'Μπράβο! Ένα ακόμη βήμα ολοκληρώθηκε.':'Η εργασία επέστρεψε στις εκκρεμότητες.')}
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderTasks()}));
+$('searchTasks').addEventListener('input',renderTasks);
+function openModal(id=null){editingId=id;const t=state.tasks.find(x=>String(x.id)===String(id));$('modalTitle').textContent=t?'Επεξεργασία εργασίας':'Νέα εργασία';$('taskName').value=t?.name||'';$('taskCategory').value=t?.category||'Προσωπικά';$('taskPriority').value=t?.priority||'medium';$('taskDue').value=t?.due||'';$('taskDueTime').value=t?.dueTime||'';$('taskReminder').value=String(t?.reminderMinutes??15);$('taskRepeat').value=t?.repeat||'none';$('taskModal').classList.add('open');$('taskName').focus()}
+function closeModal(){$('taskModal').classList.remove('open');editingId=null}
+$('openAdd').onclick=()=>openModal();$('openFullAdd').onclick=()=>openModal();$('cancelModal').onclick=closeModal;
+$('taskModal').addEventListener('click',e=>{if(e.target===$('taskModal'))closeModal()});
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();const obj={name:$('taskName').value.trim(),category:$('taskCategory').value,priority:$('taskPriority').value,due:$('taskDue').value,dueTime:$('taskDueTime').value,reminderMinutes:Number($('taskReminder').value),repeat:$('taskRepeat').value,done:false};if(!obj.name)return;if(editingId){const t=state.tasks.find(x=>String(x.id)===String(editingId));Object.assign(t,obj,{done:t.done})}else state.tasks.push({...obj,id:Date.now()});save();closeModal();render();toast('Η εργασία αποθηκεύτηκε')});
+$('quickForm').addEventListener('submit',e=>{e.preventDefault();const name=$('quickTitle').value.trim();if(!name)return;state.tasks.push({id:Date.now(),name,category:'Προσωπικά',priority:'medium',due:'',dueTime:'',reminderMinutes:0,repeat:'none',done:false});$('quickTitle').value='';save();render();toast('Προστέθηκε στη λίστα σου')});
+function renderWeek(){const names=['Δ','Τ','Τ','Π','Π','Σ','Κ'],now=new Date(),day=now.getDay(),monday=(day+6)%7;let out='';for(let i=0;i<7;i++){const d=new Date(now);d.setDate(now.getDate()-monday+i);const iso=d.toISOString().slice(0,10);const count=state.tasks.filter(t=>t.done&&t.completedDate===iso).length;out+=`<div class="day ${iso===today()?'today':''}">${names[i]}<b>${d.getDate()}</b><small>${count?'✓':''}</small></div>`}$('weekStrip').innerHTML=out}
+function renderFocusOptions(){const current=$('focusTask').value;$('focusTask').innerHTML='<option value="">Επίλεξε εργασία (προαιρετικά)</option>'+state.tasks.filter(t=>!t.done).map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');$('focusTask').value=current}
+function showClock(){const m=Math.floor(seconds/60),s=seconds%60;$('clock').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+$('applyMinutes').onclick=()=>{const n=Number($('focusMinutes').value);if(!Number.isInteger(n)||n<1||n>240){toast('Επίλεξε από 1 έως 240 λεπτά');return}if(timer){clearInterval(timer);timer=null}$('focusStart').textContent='Έναρξη';baseMinutes=n;seconds=n*60;showClock();$('focusStatus').textContent='Η διάρκεια ορίστηκε. Είσαι έτοιμος/η!';toast('Ο χρόνος ενημερώθηκε')};
+$('focusStart').onclick=()=>{if(timer){clearInterval(timer);timer=null;$('focusStart').textContent='Συνέχεια';$('focusStatus').textContent='Έκανες παύση. Συνέχισε όποτε είσαι έτοιμος/η.';return}$('focusStart').textContent='Παύση';$('focusStatus').textContent='Μείνε σε μία εργασία. Το έχεις!';timer=setInterval(()=>{seconds--;showClock();if(seconds<=0){clearInterval(timer);timer=null;$('focusStart').textContent='Έναρξη';seconds=baseMinutes*60;showClock();$('focusStatus').textContent='Ολοκληρώθηκε ο κύκλος συγκέντρωσης. Μπράβο! 🎉';toast('Ο χρόνος συγκέντρωσης ολοκληρώθηκε!');if('vibrate'in navigator)navigator.vibrate(250)}},1000)};
+$('focusReset').onclick=()=>{if(timer)clearInterval(timer);timer=null;seconds=baseMinutes*60;showClock();$('focusStart').textContent='Έναρξη';$('focusStatus').textContent='Το χρονόμετρο είναι έτοιμο.'};
+function renderHabits(){$('habitList').innerHTML=state.habits.length?state.habits.map(h=>{const done=(h.days||[]).includes(today());return `<div class="habit"><div class="habit-icon">${esc(h.icon||'✦')}</div><div class="habit-info"><b>${esc(h.name)}</b><small>${(h.days||[]).length} ολοκληρώσεις καταγεγραμμένες</small></div><button class="${done?'habit-done':'btn light small'}" data-habit="${h.id}">${done?'✓ Έγινε':'Έγινε'}</button></div>`}).join(''):'<div class="empty">Δεν έχεις προσθέσει συνήθειες ακόμη.</div>';$('habitList').querySelectorAll('[data-habit]').forEach(b=>b.onclick=()=>{const h=state.habits.find(x=>String(x.id)===b.dataset.habit);h.days=h.days||[];h.days=h.days.includes(today())?h.days.filter(x=>x!==today()):[...h.days,today()];save();renderHabits();toast('Η συνήθειά σου ενημερώθηκε')})}
+$('addHabit').onclick=()=>{const name=prompt('Ποια συνήθεια θέλεις να χτίσεις;');if(!name||!name.trim())return;state.habits.push({id:'h'+Date.now(),name:name.trim(),icon:'🌱',days:[]});save();renderHabits();toast('Η νέα συνήθεια προστέθηκε')};
+function renderNotes(){$('notesList').innerHTML=state.notes.length?state.notes.slice().reverse().map((n,i)=>`<div class="note"><div>${esc(n.text)}</div><small>${new Date(n.date).toLocaleString('el-GR')}</small> <button class="iconbtn" data-note-del="${state.notes.length-1-i}">Διαγραφή</button></div>`).join(''):'<div class="empty">Οι ιδέες σου θα εμφανιστούν εδώ.</div>';$('notesList').querySelectorAll('[data-note-del]').forEach(b=>b.onclick=()=>{state.notes.splice(Number(b.dataset.noteDel),1);save();renderNotes()})}
+$('saveNote').onclick=()=>{const text=$('noteInput').value.trim();if(!text)return toast('Γράψε πρώτα μια σημείωση');state.notes.push({text,date:new Date().toISOString()});$('noteInput').value='';save();renderNotes();toast('Η σημείωση αποθηκεύτηκε')};
+$('exportData').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='done-backup.json';a.click();URL.revokeObjectURL(url);toast('Το αντίγραφο δημιουργήθηκε')};
+
+// Browser notifications: reminders are checked while DONE is open.
+async function enableDoneNotifications(){
+  const status=$('notificationStatus');
+  if(!('Notification' in window)){status.textContent='Αυτό το περιβάλλον δεν υποστηρίζει ειδοποιήσεις.';toast('Δεν υποστηρίζονται ειδοποιήσεις εδώ');return}
+  try{
+    const permission=await Notification.requestPermission();
+    if(permission==='granted'){
+      status.textContent='Οι ειδοποιήσεις είναι ενεργές όσο το DONE παραμένει ανοιχτό.';
+      if('serviceWorker' in navigator){
+        const reg=await navigator.serviceWorker.ready;
+        if(reg.showNotification) await reg.showNotification('DONE', {body:'Οι υπενθυμίσεις σου είναι ενεργές.',icon:'./icon-192.png'});
+      } else new Notification('DONE',{body:'Οι υπενθυμίσεις σου είναι ενεργές.'});
+      toast('Οι ειδοποιήσεις ενεργοποιήθηκαν');
+    }else{status.textContent='Δεν δόθηκε άδεια ειδοποιήσεων. Μπορείς να την αλλάξεις από τις ρυθμίσεις του Safari/iPhone.'}
+  }catch(e){status.textContent='Δεν ήταν δυνατή η ενεργοποίηση σε αυτή τη συσκευή.'}
+}
+if($('enableNotifications')) $('enableNotifications').addEventListener('click',enableDoneNotifications);
+if('Notification' in window && $('notificationStatus')){
+  $('notificationStatus').textContent=Notification.permission==='granted'?'Οι ειδοποιήσεις έχουν επιτραπεί.':'Οι ειδοποιήσεις δεν έχουν ρυθμιστεί.';
+}
+const alreadyNotified=new Set();
+function checkTaskReminders(){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  const now=Date.now();
+  state.tasks.filter(t=>!t.done&&t.due&&t.dueTime&&Number(t.reminderMinutes)>0).forEach(t=>{
+    const key=String(t.id)+'-'+t.due+'-'+t.dueTime;
+    if(alreadyNotified.has(key))return;
+    const dueAt=new Date(t.due+'T'+t.dueTime).getTime();
+    const remindAt=dueAt-Number(t.reminderMinutes)*60000;
+    if(now>=remindAt&&now<dueAt+60000){
+      alreadyNotified.add(key);
+      const title='Πλησιάζει η ώρα!';
+      const body='Ώρα για: '+t.name;
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.ready.then(reg=>reg.showNotification(title,{body,icon:'./icon-192.png',tag:key})).catch(()=>{});
+      }else{try{new Notification(title,{body})}catch(e){}}
+    }
+  });
+}
+setInterval(checkTaskReminders,30000);
+checkTaskReminders();
+
+render();showClock();
+// Register the offline app shell when served from HTTPS (for example, GitHub Pages).
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+</script>
+</body></html>
